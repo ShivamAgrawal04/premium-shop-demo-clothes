@@ -2,11 +2,11 @@
 
 Shop-owner demo website for **The Gentleman Store** — premium menswear marketing site with filters, pagination, WhatsApp leads, and Cloudflare Workers deployment.
 
-| | |
-|---|---|
-| **Local folder** | `premium-growth-website-for-marketing` |
-| **Cloudflare Worker / repo name** | `premium-shop-demo-clothes` |
-| **Stack** | Next.js 16 · React 19 · Tailwind 4 · OpenNext Cloudflare · Wrangler |
+|                                   |                                                                     |
+| --------------------------------- | ------------------------------------------------------------------- |
+| **Local folder**                  | `premium-growth-website-for-marketing`                              |
+| **Cloudflare Worker / repo name** | `premium-shop-demo-clothes`                                         |
+| **Stack**                         | Next.js 16 · React 19 · Tailwind 4 · OpenNext Cloudflare · Wrangler |
 
 ---
 
@@ -59,14 +59,14 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## 3. Cloudflare files in this project
 
-| File | Purpose |
-|------|---------|
-| `wrangler.jsonc` | Worker name `premium-shop-demo-clothes`, assets, Node compat, Images binding |
-| `open-next.config.ts` | OpenNext adapter config for Cloudflare |
-| `.dev.vars` | Local `NEXTJS_ENV=development` for Workers preview |
-| `public/_headers` | Long-cache headers for `/_next/static/*` |
-| `next.config.ts` | OpenNext Cloudflare local-dev hook |
-| `package.json` scripts | `preview`, `deploy`, `upload`, `cf-typegen` |
+| File                   | Purpose                                                                      |
+| ---------------------- | ---------------------------------------------------------------------------- |
+| `wrangler.jsonc`       | Worker name `premium-shop-demo-clothes`, assets, Node compat, Images binding |
+| `open-next.config.ts`  | OpenNext adapter config for Cloudflare                                       |
+| `.dev.vars`            | Local `NEXTJS_ENV=development` for Workers preview                           |
+| `public/_headers`      | Long-cache headers for `/_next/static/*`                                     |
+| `next.config.ts`       | OpenNext Cloudflare local-dev hook                                           |
+| `package.json` scripts | `preview`, `deploy`, `upload`, `cf-typegen`                                  |
 
 Worker name (must match repo / dashboard):
 
@@ -119,12 +119,12 @@ https://premium-shop-demo-clothes.<your-subdomain>.workers.dev
 
 ### Useful commands
 
-| Command | What it does |
-|---------|----------------|
-| `npm run deploy` | Build + deploy live Worker |
-| `npm run upload` | Build + upload a new version (no instant traffic cutover) |
-| `npm run cf-typegen` | Generate `cloudflare-env.d.ts` binding types |
-| `npx wrangler tail` | Live logs from the Worker |
+| Command              | What it does                                              |
+| -------------------- | --------------------------------------------------------- |
+| `npm run deploy`     | Build + deploy live Worker                                |
+| `npm run upload`     | Build + upload a new version (no instant traffic cutover) |
+| `npm run cf-typegen` | Generate `cloudflare-env.d.ts` binding types              |
+| `npx wrangler tail`  | Live logs from the Worker                                 |
 
 ---
 
@@ -142,11 +142,11 @@ git push -u origin main
 3. In [Cloudflare Dashboard](https://dash.cloudflare.com/) → **Workers & Pages** → **Create** → connect the GitHub repo `premium-shop-demo-clothes`.
 4. Build settings (Workers + OpenNext):
 
-| Setting | Value |
-|---------|--------|
-| Build command | `npx opennextjs-cloudflare build` |
+| Setting        | Value                              |
+| -------------- | ---------------------------------- |
+| Build command  | `npx opennextjs-cloudflare build`  |
 | Deploy command | `npx opennextjs-cloudflare deploy` |
-| Root directory | `/` (this project root) |
+| Root directory | `/` (this project root)            |
 
 Or keep deploying from your machine with `npm run deploy` after each push.
 
@@ -227,15 +227,15 @@ Store contact (demo):
 
 ## 12. Troubleshooting
 
-| Issue | Fix |
-|-------|-----|
-| `wrangler login` fails | Use a browser session; or set `CLOUDFLARE_API_TOKEN` for CI |
-| Deploy fails on Node APIs | Keep `nodejs_compat` in `wrangler.jsonc` (already set) |
-| Images broken after deploy | Ensure `public/images` is committed; Images binding is in `wrangler.jsonc` |
-| Build OOM locally | Close other apps; Node 20+; retry `npm run deploy` |
-| Wrong Worker name | Must be `premium-shop-demo-clothes` in `wrangler.jsonc` and `services[].service` |
-| Stale `.open-next` | Delete `.open-next` and `.next`, then `npm run deploy` again |
-| OpenNext Windows warnings | Prefer **WSL** for `npm run deploy` if Windows builds act flaky |
+| Issue                      | Fix                                                                              |
+| -------------------------- | -------------------------------------------------------------------------------- |
+| `wrangler login` fails     | Use a browser session; or set `CLOUDFLARE_API_TOKEN` for CI                      |
+| Deploy fails on Node APIs  | Keep `nodejs_compat` in `wrangler.jsonc` (already set)                           |
+| Images broken after deploy | Ensure `public/images` is committed; Images binding is in `wrangler.jsonc`       |
+| Build OOM locally          | Close other apps; Node 20+; retry `npm run deploy`                               |
+| Wrong Worker name          | Must be `premium-shop-demo-clothes` in `wrangler.jsonc` and `services[].service` |
+| Stale `.open-next`         | Delete `.open-next` and `.next`, then `npm run deploy` again                     |
+| OpenNext Windows warnings  | Prefer **WSL** for `npm run deploy` if Windows builds act flaky                  |
 
 ---
 
