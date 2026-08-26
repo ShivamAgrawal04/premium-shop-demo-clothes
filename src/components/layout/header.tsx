@@ -3,7 +3,8 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Search, Menu, Sun, Moon, X } from "lucide-react";
+import { Search, Menu, Sun, Moon } from "lucide-react";
+// import { X } from "lucide-react"; // used by archived demo-dashboard banner
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -54,19 +55,20 @@ export function Header() {
   const [scrolled, setScrolled] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [searchOpen, setSearchOpen] = React.useState(false);
-  const [showDemo, setShowDemo] = React.useState(false);
+  // Future: restore leads dashboard banner → see `src/archive/demo-dashboard-page.tsx`
+  // const [showDemo, setShowDemo] = React.useState(false);
   const { theme, toggle, mounted } = useTheme();
   const overHero = isHome && !scrolled;
 
-  React.useEffect(() => {
-    try {
-      if (localStorage.getItem("tgs-demo-banner-hidden") !== "1") {
-        setShowDemo(true);
-      }
-    } catch {
-      setShowDemo(true);
-    }
-  }, []);
+  // React.useEffect(() => {
+  //   try {
+  //     if (localStorage.getItem("tgs-demo-banner-hidden") !== "1") {
+  //       setShowDemo(true);
+  //     }
+  //   } catch {
+  //     setShowDemo(true);
+  //   }
+  // }, []);
 
   React.useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
@@ -86,14 +88,14 @@ export function Header() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, []);
 
-  const dismissDemo = () => {
-    setShowDemo(false);
-    try {
-      localStorage.setItem("tgs-demo-banner-hidden", "1");
-    } catch {
-      /* ignore */
-    }
-  };
+  // const dismissDemo = () => {
+  //   setShowDemo(false);
+  //   try {
+  //     localStorage.setItem("tgs-demo-banner-hidden", "1");
+  //   } catch {
+  //     /* ignore */
+  //   }
+  // };
 
   return (
     <header
@@ -105,6 +107,7 @@ export function Header() {
           : "border-b border-border/60 bg-background/92 backdrop-blur-xl"
       )}
     >
+      {/* Future leads dashboard banner (route archived → src/archive/demo-dashboard-page.tsx)
       {showDemo && (
         <div
           className={cn(
@@ -141,6 +144,7 @@ export function Header() {
           </button>
         </div>
       )}
+      */}
 
       <div className="px-6 sm:px-10 lg:px-16 xl:px-24 2xl:px-32">
         <div className="grid h-16 grid-cols-[auto_1fr_auto] items-center gap-3 lg:flex lg:h-[4.5rem] lg:justify-between">

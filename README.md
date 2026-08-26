@@ -215,7 +215,7 @@ npm run lint             # ESLint
 - **Collections / Wedding / New Arrivals** — same catalog UX
 - **Product pages** — gallery, color → images, specs / care / fit panels
 - **Contact / About** — map + WhatsApp + phone
-- **Enquiry / Book appointment** — WhatsApp handoff + `/demo-dashboard` leads
+- **Enquiry / Book appointment** — WhatsApp handoff (leads dashboard archived for future backend use)
 - **Search** — Cmd/Ctrl+K across catalog
 
 Store contact (demo):

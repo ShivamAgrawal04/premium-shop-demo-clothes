@@ -1,3 +1,16 @@
+/**
+ * ARCHIVED — not mounted as a Next.js route.
+ *
+ * Previous route: `/demo-dashboard` (was `src/app/demo-dashboard/page.tsx`)
+ *
+ * To restore later:
+ * 1. Copy this file back to `src/app/demo-dashboard/page.tsx`
+ * 2. Uncomment links in `header.tsx`, `enquiry/page.tsx`, `book-appointment/page.tsx`
+ * 3. Uncomment sitemap / robots entries if needed
+ *
+ * Kept for a future backend-powered shop-owner leads dashboard.
+ */
+
 "use client";
 
 import * as React from "react";

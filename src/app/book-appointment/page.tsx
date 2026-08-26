@@ -1,8 +1,9 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
-import { Calendar, CheckCircle, ArrowRight } from "lucide-react";
+// import Link from "next/link"; // used by archived /demo-dashboard CTA
+import { Calendar, CheckCircle } from "lucide-react";
+// import { ArrowRight } from "lucide-react"; // used by archived /demo-dashboard CTA
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -75,8 +76,7 @@ export default function BookAppointmentPage() {
               Appointment Requested
             </h2>
             <p className="mb-2 text-muted-foreground">
-              Your request is saved for the shop owner and opened in WhatsApp
-              for confirmation.
+              Your request opened in WhatsApp so the shop can confirm the visit.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Button asChild variant="brand">
@@ -85,12 +85,14 @@ export default function BookAppointmentPage() {
                   Open WhatsApp Again
                 </a>
               </Button>
+              {/* Future: restore when /demo-dashboard is remounted
               <Button asChild variant="outline">
                 <Link href="/demo-dashboard">
                   View Lead Dashboard
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
+              */}
             </div>
           </div>
         </div>
