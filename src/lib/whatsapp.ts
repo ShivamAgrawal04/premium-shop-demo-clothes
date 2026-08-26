@@ -3,8 +3,19 @@ import { generateWhatsAppUrl } from "./utils";
 
 const number = siteConfig.whatsappNumber;
 
-export function whatsappProductInquiry(productName: string): string {
-  const message = `Hi, I'm interested in the "${productName}" at The Gentleman Store. Could you share more details and availability?`;
+export function whatsappProductInquiry(
+  productName: string,
+  options?: { size?: string; color?: string }
+): string {
+  const extras = [
+    options?.color ? `Color: ${options.color}` : null,
+    options?.size ? `Size: ${options.size}` : null,
+  ]
+    .filter(Boolean)
+    .join(", ");
+  const message = extras
+    ? `Hi, I'm interested in the "${productName}" (${extras}) at The Gentleman Store. Could you share more details and availability?`
+    : `Hi, I'm interested in the "${productName}" at The Gentleman Store. Could you share more details and availability?`;
   return generateWhatsAppUrl(number, message);
 }
 
@@ -25,5 +36,9 @@ export function whatsappAppointmentRequest(): string {
 
 export function whatsappStoreVisit(): string {
   const message = `Hi! I'd like to visit The Gentleman Store at ${siteConfig.location.address}. Are you open right now?`;
+  return generateWhatsAppUrl(number, message);
+}
+
+export function whatsappLeadMessage(message: string): string {
   return generateWhatsAppUrl(number, message);
 }

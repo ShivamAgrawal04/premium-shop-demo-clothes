@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import { collections, getCollectionBySlug } from "@/data/collections";
-import { getProductsByCollection } from "@/data/products";
-import { ProductCard } from "@/components/product/product-card";
+import { ProductCatalogSection } from "@/components/product/product-catalog-section";
 import type { Metadata } from "next";
 import { generateMetadata as genMeta, generateBreadcrumbJsonLd } from "@/lib/seo";
 
@@ -32,7 +31,6 @@ export default async function CollectionPage({ params }: PageProps) {
     notFound();
   }
 
-  const products = getProductsByCollection(slug);
   const breadcrumbLd = generateBreadcrumbJsonLd([
     { name: "Home", url: "/" },
     { name: "Collections", url: "/collections" },
@@ -46,43 +44,31 @@ export default async function CollectionPage({ params }: PageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
 
-      {/* Collection Hero */}
-      <section className="relative pt-24 pb-16 lg:pt-28 overflow-hidden bg-foreground text-background">
+      <section className="relative overflow-hidden border-b border-border bg-secondary pt-8 pb-16 lg:pb-20">
         <div
-          className="absolute inset-0 opacity-20"
-          style={{
-            background: `linear-gradient(135deg, hsl(36, 53%, 45%, 0.3) 0%, transparent 50%)`,
-          }}
+          className="absolute inset-0 bg-cover bg-center opacity-25"
+          style={{ backgroundImage: `url(${collection.heroImage})` }}
         />
-        <div className="relative z-10 px-6 sm:px-10 lg:px-16 xl:px-24 2xl:px-32 text-center py-12 sm:py-16">
-          <p className="text-xs uppercase tracking-[0.3em] text-brand mb-4">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/45 to-black/30 dark:from-secondary dark:via-secondary/80 dark:to-secondary/50" />
+        <div className="relative z-10 px-6 py-12 text-center sm:px-10 sm:py-16 lg:px-16 xl:px-24 2xl:px-32">
+          <p className="mb-4 text-xs uppercase tracking-[0.3em] text-brand">
             Collection
           </p>
-          <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl tracking-wide">
+          <h1 className="font-display text-4xl tracking-wide text-white dark:text-foreground sm:text-5xl lg:text-6xl">
             {collection.name}
           </h1>
-          <p className="mt-4 max-w-2xl mx-auto text-background/60 text-base sm:text-lg">
+          <p className="mx-auto mt-4 max-w-2xl text-base text-white/70 dark:text-muted-foreground sm:text-lg">
             {collection.description}
           </p>
         </div>
       </section>
 
-      {/* Products */}
-      <section className="py-24 sm:py-32">
+      <section className="py-16 sm:py-24">
         <div className="px-6 sm:px-10 lg:px-16 xl:px-24 2xl:px-32">
-          {products.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-12">
-              {products.map((product, index) => (
-                <ProductCard key={product.id} product={product} index={index} />
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-20">
-              <p className="text-muted-foreground">
-                Products coming soon. Check back for updates.
-              </p>
-            </div>
-          )}
+          <ProductCatalogSection
+            lockedCollection={slug}
+            emptyLabel="No pieces match these filters in this collection."
+          />
         </div>
       </section>
     </>

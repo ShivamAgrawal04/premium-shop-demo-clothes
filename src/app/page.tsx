@@ -1,24 +1,23 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, MessageCircle, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/product/product-card";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { FadeIn } from "@/components/shared/fade-in";
-import { HeroEntrance } from "@/components/shared/hero-entrance";
-import {
-  getFeaturedProducts,
-  getNewArrivals,
-  getBestsellers,
-} from "@/data/products";
+import { InteractiveHero } from "@/components/shared/interactive-hero";
+import { Marquee } from "@/components/shared/marquee";
+import { ParallaxMedia } from "@/components/shared/parallax-media";
+import { ScrollProgress } from "@/components/shared/scroll-progress";
+import { WhatsAppIcon } from "@/components/shared/whatsapp-icon";
+import { getFeaturedProducts, getNewArrivals } from "@/data/products";
 import { whatsappWeddingInquiry } from "@/lib/whatsapp";
-import { siteConfig } from "@/config/site";
 
 const occasions = [
   {
     title: "Wedding",
     description: "Made for the moments that deserve more.",
-    cta: "Explore Wedding Collection",
+    cta: "Explore Wedding",
     href: "/collections/wedding",
     imgSrc: "/images/categories/wedding.jpg",
     imgAlt: "Wedding Collection",
@@ -26,7 +25,7 @@ const occasions = [
   {
     title: "Formal",
     description: "Dress for the position you want.",
-    cta: "Explore Formal Wear",
+    cta: "Explore Formal",
     href: "/collections/formal",
     imgSrc: "/images/collections/formal.jpg",
     imgAlt: "Formal Collection",
@@ -34,7 +33,7 @@ const occasions = [
   {
     title: "Party",
     description: "Own the night.",
-    cta: "Explore Party Collection",
+    cta: "Explore Party",
     href: "/collections/party",
     imgSrc: "/images/categories/party.jpg",
     imgAlt: "Party Collection",
@@ -42,7 +41,7 @@ const occasions = [
   {
     title: "Casual",
     description: "Style without trying too hard.",
-    cta: "Explore Casual Wear",
+    cta: "Explore Casual",
     href: "/collections/casual",
     imgSrc: "/images/categories/casual.jpg",
     imgAlt: "Casual Collection",
@@ -52,101 +51,52 @@ const occasions = [
 export default function HomePage() {
   const featured = getFeaturedProducts().slice(0, 4);
   const newArrivals = getNewArrivals().slice(0, 4);
-  const bestsellers = getBestsellers().slice(0, 4);
 
   return (
     <>
-      {/* Hero — full bleed */}
-      <section className="relative flex min-h-[min(860px,100svh)] items-end overflow-hidden bg-foreground">
-        <div className="absolute inset-0 bg-black" />
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-65"
-          style={{ backgroundImage: "url(/images/editorial/hero.jpg)" }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/25 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
+      <ScrollProgress />
+      <InteractiveHero />
 
-        <div className="relative z-10 w-full px-6 sm:px-10 lg:px-16 xl:px-24 2xl:px-32 pb-20 sm:pb-28 lg:pb-32">
-          <div className="max-w-3xl">
-            <HeroEntrance>
-              <p className="mb-5 text-[11px] font-medium uppercase tracking-[0.4em] text-brand">
-                {siteConfig.name}
-              </p>
-              <h1 className="font-display max-w-4xl text-5xl leading-[0.92] tracking-wide text-white sm:text-6xl lg:text-8xl xl:text-[6.5rem]">
-                THE ART OF
-                <br />
-                DRESSING WELL
-              </h1>
-              <p className="mt-8 max-w-lg text-base leading-relaxed text-white/75 sm:text-lg">
-                Premium menswear for weddings, celebrations and every occasion
-                worth dressing for.
-              </p>
-            </HeroEntrance>
+      <Marquee
+        items={[
+          "Wedding",
+          "Formal",
+          "Sherwani",
+          "Bandhgala",
+          "Suits",
+          "Bespoke",
+          "Bhind",
+        ]}
+      />
 
-            <HeroEntrance delay={0.6}>
-              <div className="mt-10 flex flex-col sm:flex-row gap-4">
-                <Button asChild size="xl" variant="brand">
-                  <Link href="/collections">
-                    Explore Collection
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  size="xl"
-                  variant="outline"
-                  className="border-white/25 text-white hover:bg-white/10"
-                >
-                  <Link href="/book-appointment">Book a Visit</Link>
-                </Button>
-              </div>
-            </HeroEntrance>
-          </div>
-        </div>
-      </section>
-
-      {/* Editorial — asymmetric split */}
-      <section className="py-24 sm:py-32 lg:py-40">
+      <section className="py-16 sm:py-20 lg:py-24">
         <div className="px-6 sm:px-10 lg:px-16 xl:px-24 2xl:px-32">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-6 items-center">
-            <FadeIn direction="left" className="lg:col-span-7">
-              <div className="relative aspect-[4/5] sm:aspect-[3/4] lg:aspect-[4/5] bg-secondary overflow-hidden">
-                <Image
-                  src="/images/editorial/tailor.jpg"
-                  alt="The Gentleman Store - premium menswear craftsmanship"
-                  fill
-                  sizes="(min-width: 1024px) 58vw, 100vw"
-                  className="object-cover"
-                  loading="lazy"
-                />
-              </div>
+          <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-12">
+            <FadeIn direction="left" className="lg:col-span-5">
+              <ParallaxMedia
+                src="/images/editorial/store.jpg"
+                alt="The Gentleman Store boutique interior"
+                className="aspect-[4/3] shadow-[var(--shadow-medium)] sm:aspect-[16/11]"
+                sizes="(min-width: 1024px) 40vw, 100vw"
+              />
             </FadeIn>
 
             <FadeIn
               direction="right"
-              delay={0.2}
-              className="lg:col-span-5 lg:pl-8"
+              delay={0.08}
+              className="lg:col-span-7 lg:pl-2"
             >
-              <p className="text-[11px] uppercase tracking-[0.3em] text-brand mb-5">
+              <p className="mb-3 text-[11px] uppercase tracking-[0.3em] text-brand">
                 Our Story
               </p>
-              <h2 className="font-display text-3xl sm:text-4xl lg:text-[2.75rem] tracking-wide leading-tight">
-                Crafted for the
-                <br />
-                Modern Gentleman
+              <h2 className="font-display text-2xl leading-tight tracking-wide sm:text-3xl lg:text-4xl">
+                Crafted for the Modern Gentleman
               </h2>
-              <p className="mt-7 text-muted-foreground leading-[1.8] text-[15px]">
-                At The Gentleman Store, we believe that dressing well is not
-                about following trends. It is about understanding quality,
-                appreciating craftsmanship, and wearing clothes that reflect who
-                you are.
+              <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-[15px]">
+                Dressing well is not about chasing trends. It is about quality,
+                craftsmanship, and clothes that reflect who you are.
               </p>
-              <p className="mt-4 text-muted-foreground leading-[1.8] text-[15px]">
-                From hand-tailored suits to heritage Indian wear, every piece in
-                our collection is curated for the man who values substance over
-                flash.
-              </p>
-              <Button asChild variant="outline" className="mt-10">
+              <Button asChild variant="outline" className="mt-6">
                 <Link href="/about">
                   Read Our Story
                   <ArrowRight className="h-4 w-4" />
@@ -157,39 +107,38 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Shop by Occasion — full-bleed grid */}
-      <section className="bg-secondary/40 py-24 sm:py-32">
+      <section className="bg-secondary/70 py-20 sm:py-24">
         <div className="px-6 sm:px-10 lg:px-16 xl:px-24 2xl:px-32">
           <SectionHeading
             title="Shop by Occasion"
             subtitle="Every moment deserves its own style."
           />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
             {occasions.map((occasion, index) => (
-              <FadeIn key={occasion.title} delay={index * 0.08}>
+              <FadeIn key={occasion.title} delay={index * 0.06}>
                 <Link
                   href={occasion.href}
-                  className="group relative block aspect-[3/4] overflow-hidden"
+                  className="group relative block aspect-[3/4] overflow-hidden bg-card shadow-[var(--shadow-soft)] transition-shadow duration-500 hover:shadow-[var(--shadow-medium)]"
                 >
                   <Image
                     src={occasion.imgSrc}
                     alt={occasion.imgAlt}
                     fill
                     sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
                   <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-7">
-                    <h3 className="font-display text-2xl sm:text-[1.65rem] text-background tracking-wide">
+                    <h3 className="font-display text-2xl tracking-wide text-white">
                       {occasion.title}
                     </h3>
-                    <p className="mt-1 text-sm text-background/60 leading-relaxed">
+                    <p className="mt-1 text-sm text-white/70">
                       {occasion.description}
                     </p>
-                    <div className="mt-4 flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-background/80 group-hover:text-brand transition-colors duration-300">
+                    <div className="mt-4 flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-white/85 transition-colors group-hover:text-brand">
                       {occasion.cta}
-                      <ArrowRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-1.5" />
+                      <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1.5" />
                     </div>
                   </div>
                 </Link>
@@ -199,19 +148,18 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Featured Products — wide grid */}
-      <section className="py-24 sm:py-32">
+      <section className="py-20 sm:py-24">
         <div className="px-6 sm:px-10 lg:px-16 xl:px-24 2xl:px-32">
           <SectionHeading
             title="Featured Pieces"
-            subtitle="Our most coveted designs, chosen by gentlemen who know quality."
+            subtitle="Chosen for gentlemen who know quality."
           />
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-12">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-3 sm:gap-x-6 sm:gap-y-12 lg:grid-cols-4">
             {featured.map((product, index) => (
               <ProductCard key={product.id} product={product} index={index} />
             ))}
           </div>
-          <div className="mt-14 text-center">
+          <div className="mt-12 text-center">
             <Button asChild variant="outline" size="lg">
               <Link href="/collections">
                 View All Collections
@@ -222,46 +170,39 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Wedding Editorial — full-bleed dark */}
-      <section className="bg-foreground py-24 text-primary-foreground sm:py-32 lg:py-40">
+      <section className="border-y border-border bg-brand-surface py-16 sm:py-20 lg:py-24">
         <div className="px-6 sm:px-10 lg:px-16 xl:px-24 2xl:px-32">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-6 items-center">
+          <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-12">
             <FadeIn
               direction="left"
-              className="lg:col-span-5 lg:pr-8 order-2 lg:order-1"
+              className="order-2 lg:order-1 lg:col-span-5"
             >
-              <p className="text-[11px] uppercase tracking-[0.3em] text-brand mb-5">
+              <p className="mb-4 text-[11px] uppercase tracking-[0.3em] text-brand">
                 The Wedding Edit
               </p>
-              <h2 className="font-display text-3xl sm:text-4xl lg:text-[2.75rem] tracking-wide leading-tight">
+              <h2 className="font-display text-3xl leading-tight tracking-wide sm:text-4xl lg:text-[2.75rem]">
                 Your Wedding Look
                 <br />
                 Deserves More
               </h2>
-              <p className="mt-7 text-primary-foreground/65 leading-[1.8] text-[15px]">
-                From sherwanis to bandhgalas, from kurtas to wedding accessories
-                — discover pieces crafted for the most important celebration of
-                your life.
+              <p className="mt-6 max-w-md text-[15px] leading-[1.8] text-muted-foreground">
+                Sherwanis, bandhgalas, kurtas and accessories — crafted for the
+                most important celebration of your life.
               </p>
-              <div className="mt-10 flex flex-col sm:flex-row gap-4">
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Button asChild variant="brand" size="lg">
                   <Link href="/wedding">
                     Explore Wedding Edit
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
-                <Button
-                  asChild
-                  variant="outline"
-                  size="lg"
-                  className="border-primary-foreground/25 text-primary-foreground hover:bg-primary-foreground/10"
-                >
+                <Button asChild variant="outline" size="lg">
                   <a
                     href={whatsappWeddingInquiry()}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <MessageCircle className="h-4 w-4" />
+                    <WhatsAppIcon className="h-4 w-4" />
                     Wedding Enquiry
                   </a>
                 </Button>
@@ -270,37 +211,32 @@ export default function HomePage() {
 
             <FadeIn
               direction="right"
-              delay={0.2}
-              className="lg:col-span-7 order-1 lg:order-2"
+              delay={0.12}
+              className="order-1 lg:order-2 lg:col-span-7"
             >
-              <div className="relative aspect-[4/5] sm:aspect-[3/4] lg:aspect-[4/3] overflow-hidden bg-background/5">
-                <Image
-                  src="/images/editorial/wedding-hero.jpg"
-                  alt="Wedding Collection"
-                  fill
-                  sizes="(min-width: 1024px) 58vw, 100vw"
-                  className="object-cover"
-                  loading="lazy"
-                />
-              </div>
+              <ParallaxMedia
+                src="/images/editorial/wedding-hero.jpg"
+                alt="Wedding Collection"
+                className="aspect-[4/3] shadow-[var(--shadow-medium)] lg:aspect-[16/11]"
+                sizes="(min-width: 1024px) 55vw, 100vw"
+              />
             </FadeIn>
           </div>
         </div>
       </section>
 
-      {/* New Arrivals */}
-      <section className="py-24 sm:py-32">
+      <section className="py-20 sm:py-24">
         <div className="px-6 sm:px-10 lg:px-16 xl:px-24 2xl:px-32">
           <SectionHeading
             title="New Arrivals"
-            subtitle="Fresh pieces, just arrived. Be the first to wear them."
+            subtitle="Fresh pieces — be the first to wear them."
           />
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-12">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-3 sm:gap-x-6 sm:gap-y-12 lg:grid-cols-4">
             {newArrivals.map((product, index) => (
               <ProductCard key={product.id} product={product} index={index} />
             ))}
           </div>
-          <div className="mt-14 text-center">
+          <div className="mt-12 text-center">
             <Button asChild variant="outline" size="lg">
               <Link href="/new-arrivals">
                 View All New Arrivals
@@ -311,59 +247,45 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Bestsellers */}
-      <section className="bg-secondary/40 py-24 sm:py-32">
+      <section className="pb-20 sm:pb-24">
         <div className="px-6 sm:px-10 lg:px-16 xl:px-24 2xl:px-32">
-          <SectionHeading
-            title="Bestsellers"
-            subtitle="The pieces our gentlemen keep coming back for."
-          />
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-12">
-            {bestsellers.map((product, index) => (
-              <ProductCard key={product.id} product={product} index={index} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA — full-width */}
-      <section className="py-24 sm:py-32">
-        <div className="px-6 sm:px-10 lg:px-16 xl:px-24 2xl:px-32">
-          <div className="relative overflow-hidden bg-foreground px-8 py-20 text-center text-primary-foreground sm:px-16 sm:py-28 lg:px-24">
-            <div
-              className="absolute inset-0 opacity-10"
-              style={{
-                backgroundImage:
-                  "radial-gradient(circle at 50% 50%, hsl(36 50% 42%) 0%, transparent 60%)",
-              }}
-            />
-            <div className="relative z-10">
-              <Sparkles className="h-7 w-7 text-brand mx-auto mb-7" />
-              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl tracking-wide">
-                Visit Our Store
-              </h2>
-              <p className="mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-primary-foreground/65">
-                Experience our collection in person. Our stylists will help you
-                find the perfect piece for every occasion.
-              </p>
-              <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
-                <Button asChild variant="brand" size="lg">
-                  <Link href="/book-appointment">
-                    Book an Appointment
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  variant="outline"
-                  size="lg"
-                  className="border-primary-foreground/25 text-primary-foreground hover:bg-primary-foreground/10"
+          <FadeIn>
+            <div className="relative overflow-hidden border border-border bg-card px-8 py-16 text-center shadow-[var(--shadow-medium)] sm:px-16 sm:py-20">
+              <div
+                className="pointer-events-none absolute inset-0 opacity-40"
+                style={{
+                  backgroundImage:
+                    "radial-gradient(circle at 50% 0%, hsl(var(--brand) / 0.18) 0%, transparent 55%)",
+                }}
+              />
+              <div className="relative z-10">
+                <span
+                  className="float-soft mx-auto mb-6 inline-flex text-brand"
+                  aria-hidden
                 >
-                  <Link href="/contact">Get Directions</Link>
-                </Button>
+                  <Sparkles className="h-7 w-7" />
+                </span>
+                <h2 className="font-display text-3xl tracking-wide sm:text-4xl lg:text-5xl">
+                  Visit Our Store
+                </h2>
+                <p className="mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-muted-foreground">
+                  Book a visit or send an enquiry — every lead reaches the shop
+                  owner on WhatsApp.
+                </p>
+                <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
+                  <Button asChild variant="brand" size="lg">
+                    <Link href="/book-appointment">
+                      Book an Appointment
+                      <ArrowRight className="h-4 w-4" />
+                    </Link>
+                  </Button>
+                  <Button asChild variant="outline" size="lg">
+                    <Link href="/enquiry">Send an Enquiry</Link>
+                  </Button>
+                </div>
               </div>
             </div>
-          </div>
+          </FadeIn>
         </div>
       </section>
     </>

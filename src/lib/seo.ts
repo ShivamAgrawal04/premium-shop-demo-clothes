@@ -95,8 +95,9 @@ export function generateLocalBusinessJsonLd() {
       addressLocality: siteConfig.location.city,
       addressRegion: siteConfig.location.state,
       addressCountry: siteConfig.location.country,
-      postalCode: "462011",
+      postalCode: "462001",
     },
+    hasMap: siteConfig.location.mapsOpenUrl,
     openingHoursSpecification: [
       {
         "@type": "OpeningHoursSpecification",

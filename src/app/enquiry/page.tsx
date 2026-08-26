@@ -1,7 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { Send, CheckCircle } from "lucide-react";
+import Link from "next/link";
+import { Send, CheckCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,9 +14,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { PageHeader } from "@/components/layout/page-header";
+import { WhatsAppIcon } from "@/components/shared/whatsapp-icon";
 import { validateEnquiry } from "@/lib/validation";
+import {
+  formatLeadWhatsAppMessage,
+  saveLead,
+} from "@/lib/leads";
+import { whatsappLeadMessage } from "@/lib/whatsapp";
+
 export default function EnquiryPage() {
   const [submitted, setSubmitted] = React.useState(false);
+  const [waUrl, setWaUrl] = React.useState("");
   const [errors, setErrors] = React.useState<Record<string, string>>({});
   const [form, setForm] = React.useState({
     name: "",
@@ -41,26 +50,52 @@ export default function EnquiryPage() {
       return;
     }
 
+    const lead = saveLead({
+      type: "enquiry",
+      name: form.name.trim(),
+      phone: form.phone.trim(),
+      email: form.email.trim() || undefined,
+      occasion: form.occasion,
+      date: form.date || undefined,
+      lookingFor: form.lookingFor.trim() || undefined,
+      message: form.message.trim() || undefined,
+    });
+
+    const url = whatsappLeadMessage(formatLeadWhatsAppMessage(lead));
+    setWaUrl(url);
     setErrors({});
     setSubmitted(true);
+    window.open(url, "_blank", "noopener,noreferrer");
   };
 
   if (submitted) {
     return (
       <>
         <PageHeader title="Enquiry" />
-        <div className="max-w-2xl px-6 sm:px-10 lg:px-16 xl:px-24 2xl:px-32 pb-20">
-          <div className="text-center py-16 border rounded-lg">
-            <CheckCircle className="h-12 w-12 text-emerald-600 mx-auto mb-4" />
-            <h2 className="font-display text-2xl tracking-wide mb-2">
-              Thank You
+        <div className="max-w-2xl px-6 pb-20 sm:px-10 lg:px-16 xl:px-24 2xl:px-32">
+          <div className="border py-16 text-center">
+            <CheckCircle className="mx-auto mb-4 h-12 w-12 text-emerald-600" />
+            <h2 className="mb-2 font-display text-2xl tracking-wide">
+              Enquiry Captured
             </h2>
-            <p className="text-muted-foreground mb-2">
-              Your demo enquiry has been submitted successfully.
+            <p className="mb-2 text-muted-foreground">
+              Your lead is saved for the shop owner and opened in WhatsApp for
+              instant follow-up.
             </p>
-            <p className="text-xs text-muted-foreground/60">
-              This is a demonstration. No data has been sent to any server.
-            </p>
+            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <Button asChild variant="brand">
+                <a href={waUrl} target="_blank" rel="noopener noreferrer">
+                  <WhatsAppIcon className="h-4 w-4" />
+                  Open WhatsApp Again
+                </a>
+              </Button>
+              <Button asChild variant="outline">
+                <Link href="/demo-dashboard">
+                  View Lead Dashboard
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
       </>
@@ -73,11 +108,11 @@ export default function EnquiryPage() {
         title="Enquiry"
         description="Tell us what you are looking for. We will get back to you shortly."
       />
-      <div className="max-w-2xl px-6 sm:px-10 lg:px-16 xl:px-24 2xl:px-32 pb-20">
+      <div className="max-w-2xl px-6 pb-20 sm:px-10 lg:px-16 xl:px-24 2xl:px-32">
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium mb-2">
+              <label htmlFor="name" className="mb-2 block text-sm font-medium">
                 Name *
               </label>
               <Input
@@ -91,7 +126,7 @@ export default function EnquiryPage() {
               )}
             </div>
             <div>
-              <label htmlFor="phone" className="block text-sm font-medium mb-2">
+              <label htmlFor="phone" className="mb-2 block text-sm font-medium">
                 Phone *
               </label>
               <Input
@@ -108,7 +143,7 @@ export default function EnquiryPage() {
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium mb-2">
+            <label htmlFor="email" className="mb-2 block text-sm font-medium">
               Email (optional)
             </label>
             <Input
@@ -120,9 +155,9 @@ export default function EnquiryPage() {
             />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div>
-              <label className="block text-sm font-medium mb-2">
+              <label className="mb-2 block text-sm font-medium">
                 Occasion *
               </label>
               <Select
@@ -145,7 +180,7 @@ export default function EnquiryPage() {
               )}
             </div>
             <div>
-              <label htmlFor="date" className="block text-sm font-medium mb-2">
+              <label htmlFor="date" className="mb-2 block text-sm font-medium">
                 Preferred Date (optional)
               </label>
               <Input
@@ -158,19 +193,24 @@ export default function EnquiryPage() {
           </div>
 
           <div>
-            <label htmlFor="lookingFor" className="block text-sm font-medium mb-2">
+            <label
+              htmlFor="lookingFor"
+              className="mb-2 block text-sm font-medium"
+            >
               What are you looking for?
             </label>
             <Input
               id="lookingFor"
               value={form.lookingFor}
-              onChange={(e) => setForm({ ...form, lookingFor: e.target.value })}
+              onChange={(e) =>
+                setForm({ ...form, lookingFor: e.target.value })
+              }
               placeholder="e.g., Wedding sherwani, formal suit..."
             />
           </div>
 
           <div>
-            <label htmlFor="message" className="block text-sm font-medium mb-2">
+            <label htmlFor="message" className="mb-2 block text-sm font-medium">
               Message
             </label>
             <Textarea
@@ -185,13 +225,19 @@ export default function EnquiryPage() {
             )}
           </div>
 
-          <Button type="submit" size="lg" variant="brand" className="w-full sm:w-auto">
+          <Button
+            type="submit"
+            size="lg"
+            variant="brand"
+            className="w-full sm:w-auto"
+          >
             <Send className="h-4 w-4" />
-            Send Enquiry
+            Send Enquiry via WhatsApp
           </Button>
 
-          <p className="text-xs text-muted-foreground/60">
-            Demo form. No data is sent to any server.
+          <p className="text-xs text-muted-foreground/70">
+            Leads are saved on this device for the shop-owner demo dashboard and
+            forwarded on WhatsApp.
           </p>
         </form>
       </div>

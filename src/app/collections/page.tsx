@@ -37,15 +37,15 @@ export default function CollectionsPage() {
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <h3 className="font-display text-2xl text-white tracking-wide">
+                    <h3 className="font-display text-2xl tracking-wide text-white">
                       {collection.name}
                     </h3>
                     <p className="mt-1 text-sm text-white/70">
                       {collection.tagline}
                     </p>
-                    <div className="mt-3 flex items-center gap-2 text-xs uppercase tracking-widest text-white/90 group-hover:text-brand transition-colors">
+                    <div className="mt-3 flex items-center gap-2 text-xs uppercase tracking-widest text-white/90 transition-colors group-hover:text-brand">
                       Explore Collection
                       <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
                     </div>

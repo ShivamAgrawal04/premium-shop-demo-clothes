@@ -31,8 +31,8 @@ export function FadeIn({
       whileInView={viewport ? { opacity: 1, x: 0, y: 0 } : undefined}
       animate={!viewport ? { opacity: 1, x: 0, y: 0 } : undefined}
       viewport={{ once: true }}
-      transition={{ duration: 0.5, delay, ease: "easeOut" }}
-      style={{ willChange: "transform, opacity", transform: "translateZ(0)" }}
+      transition={{ duration: 0.45, delay, ease: [0.22, 1, 0.36, 1] }}
+      style={{ willChange: "opacity, transform" }}
       className={className}
     >
       {children}

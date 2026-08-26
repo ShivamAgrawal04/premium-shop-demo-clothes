@@ -1,5 +1,6 @@
 export const navigation = {
   main: [
+    { label: "Shop", href: "/shop" },
     { label: "New Arrivals", href: "/new-arrivals" },
     { label: "Collections", href: "/collections" },
     { label: "Wedding", href: "/wedding" },
@@ -16,11 +17,12 @@ export const navigation = {
   ] as const,
   footer: {
     shop: [
+      { label: "Shop All", href: "/shop" },
       { label: "New Arrivals", href: "/new-arrivals" },
       { label: "Wedding Collection", href: "/wedding" },
       { label: "Formal Wear", href: "/collections/formal" },
       { label: "Casual Collection", href: "/collections/casual" },
-      { label: "Accessories", href: "/collections/accessories" },
+      { label: "Ethnic Wear", href: "/collections/ethnic" },
     ],
     company: [
       { label: "About Us", href: "/about" },
@@ -29,9 +31,10 @@ export const navigation = {
       { label: "Enquiry", href: "/enquiry" },
     ],
     help: [
-      { label: "Size Guide", href: "/about" },
+      { label: "Size Guide", href: "/size-guide" },
       { label: "Contact Us", href: "/contact" },
       { label: "Book a Visit", href: "/book-appointment" },
+      { label: "Enquiry", href: "/enquiry" },
     ],
   },
 } as const;

@@ -1,11 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, MessageCircle } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ProductCard } from "@/components/product/product-card";
+import { ProductCatalogSection } from "@/components/product/product-catalog-section";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { FadeIn } from "@/components/shared/fade-in";
-import { getProductsByCollection } from "@/data/products";
+import { WhatsAppIcon } from "@/components/shared/whatsapp-icon";
 import { whatsappWeddingInquiry } from "@/lib/whatsapp";
 import type { Metadata } from "next";
 import { generateMetadata as genMeta } from "@/lib/seo";
@@ -41,41 +41,37 @@ const weddingCategories = [
 ];
 
 export default function WeddingPage() {
-  const products = getProductsByCollection("wedding");
-
   return (
     <>
       {/* Hero */}
-      <section className="relative pt-24 pb-16 lg:pt-28 overflow-hidden bg-foreground text-background">
+      <section className="relative overflow-hidden border-b border-border bg-secondary pb-16 pt-10 lg:pb-20 lg:pt-12">
         <div
-          className="absolute inset-0 opacity-20"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 50% 30%, hsl(36, 53%, 45%, 0.3) 0%, transparent 50%)",
-          }}
+          className="absolute inset-0 bg-cover bg-center opacity-20"
+          style={{ backgroundImage: "url(/images/editorial/wedding-hero.jpg)" }}
         />
-        <div className="relative z-10 px-6 sm:px-10 lg:px-16 xl:px-24 2xl:px-32 text-center py-12 sm:py-20">
-          <p className="text-xs uppercase tracking-[0.3em] text-brand mb-4">
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/55 to-black/70 dark:from-secondary/40 dark:via-secondary/80 dark:to-secondary" />
+        <div className="relative z-10 px-6 py-12 text-center sm:px-10 sm:py-20 lg:px-16 xl:px-24 2xl:px-32">
+          <p className="mb-4 text-xs uppercase tracking-[0.3em] text-brand">
             The Wedding Edit
           </p>
-          <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl tracking-wide">
+          <h1 className="font-display text-4xl tracking-wide text-white dark:text-foreground sm:text-5xl lg:text-6xl">
             Your Wedding Look
             <br />
             Deserves More
           </h1>
-          <p className="mt-6 max-w-2xl mx-auto text-background/60 text-base sm:text-lg">
+          <p className="mx-auto mt-6 max-w-2xl text-base text-white/70 dark:text-muted-foreground sm:text-lg">
             From sherwanis to bandhgalas, from kurtas to wedding accessories —
             discover pieces crafted for the most important celebration of your
             life.
           </p>
-          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
             <Button asChild variant="brand" size="lg">
               <a
                 href={whatsappWeddingInquiry()}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <MessageCircle className="h-4 w-4" />
+                <WhatsAppIcon className="h-4 w-4" />
                 Wedding Enquiry
               </a>
             </Button>
@@ -83,7 +79,7 @@ export default function WeddingPage() {
               asChild
               variant="outline"
               size="lg"
-              className="border-background/20 text-background hover:bg-background/10"
+              className="border-white/50 bg-transparent text-white hover:bg-white hover:text-foreground dark:border-foreground/20 dark:text-foreground dark:hover:bg-foreground dark:hover:text-background"
             >
               <Link href="/book-appointment">
                 Book Consultation
@@ -134,11 +130,10 @@ export default function WeddingPage() {
             title="Wedding Collection"
             subtitle="Handpicked pieces for your special day."
           />
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-12">
-            {products.map((product, index) => (
-              <ProductCard key={product.id} product={product} index={index} />
-            ))}
-          </div>
+          <ProductCatalogSection
+            lockedCollection="wedding"
+            emptyLabel="No wedding pieces match these filters."
+          />
         </div>
       </section>
     </>

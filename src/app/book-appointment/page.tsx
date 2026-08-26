@@ -1,7 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { Calendar, CheckCircle } from "lucide-react";
+import Link from "next/link";
+import { Calendar, CheckCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,10 +14,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { PageHeader } from "@/components/layout/page-header";
+import { WhatsAppIcon } from "@/components/shared/whatsapp-icon";
 import { validateAppointment } from "@/lib/validation";
+import { formatLeadWhatsAppMessage, saveLead } from "@/lib/leads";
+import { whatsappLeadMessage } from "@/lib/whatsapp";
 
 export default function BookAppointmentPage() {
   const [submitted, setSubmitted] = React.useState(false);
+  const [waUrl, setWaUrl] = React.useState("");
   const [errors, setErrors] = React.useState<Record<string, string>>({});
   const [form, setForm] = React.useState({
     name: "",
@@ -42,26 +47,51 @@ export default function BookAppointmentPage() {
       return;
     }
 
+    const lead = saveLead({
+      type: "appointment",
+      name: form.name.trim(),
+      phone: form.phone.trim(),
+      date: form.date,
+      time: form.time,
+      service: form.service,
+      message: form.message.trim() || undefined,
+    });
+
+    const url = whatsappLeadMessage(formatLeadWhatsAppMessage(lead));
+    setWaUrl(url);
     setErrors({});
     setSubmitted(true);
+    window.open(url, "_blank", "noopener,noreferrer");
   };
 
   if (submitted) {
     return (
       <>
         <PageHeader title="Book an Appointment" />
-        <div className="max-w-2xl px-6 sm:px-10 lg:px-16 xl:px-24 2xl:px-32 pb-20">
-          <div className="text-center py-16 border rounded-lg">
-            <CheckCircle className="h-12 w-12 text-emerald-600 mx-auto mb-4" />
-            <h2 className="font-display text-2xl tracking-wide mb-2">
+        <div className="max-w-2xl px-6 pb-20 sm:px-10 lg:px-16 xl:px-24 2xl:px-32">
+          <div className="border py-16 text-center">
+            <CheckCircle className="mx-auto mb-4 h-12 w-12 text-emerald-600" />
+            <h2 className="mb-2 font-display text-2xl tracking-wide">
               Appointment Requested
             </h2>
-            <p className="text-muted-foreground mb-2">
-              We will confirm your appointment shortly via phone or WhatsApp.
+            <p className="mb-2 text-muted-foreground">
+              Your request is saved for the shop owner and opened in WhatsApp
+              for confirmation.
             </p>
-            <p className="text-xs text-muted-foreground/60">
-              This is a demonstration. No appointment has been booked.
-            </p>
+            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <Button asChild variant="brand">
+                <a href={waUrl} target="_blank" rel="noopener noreferrer">
+                  <WhatsAppIcon className="h-4 w-4" />
+                  Open WhatsApp Again
+                </a>
+              </Button>
+              <Button asChild variant="outline">
+                <Link href="/demo-dashboard">
+                  View Lead Dashboard
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
       </>
@@ -72,13 +102,13 @@ export default function BookAppointmentPage() {
     <>
       <PageHeader
         title="Book an Appointment"
-        description="Schedule a personal consultation at our store in Bhopal."
+        description="Schedule a personal consultation at our store in Bhind."
       />
-      <div className="max-w-2xl px-6 sm:px-10 lg:px-16 xl:px-24 2xl:px-32 pb-20">
+      <div className="max-w-2xl px-6 pb-20 sm:px-10 lg:px-16 xl:px-24 2xl:px-32">
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium mb-2">
+              <label htmlFor="name" className="mb-2 block text-sm font-medium">
                 Name *
               </label>
               <Input
@@ -92,7 +122,7 @@ export default function BookAppointmentPage() {
               )}
             </div>
             <div>
-              <label htmlFor="phone" className="block text-sm font-medium mb-2">
+              <label htmlFor="phone" className="mb-2 block text-sm font-medium">
                 Phone *
               </label>
               <Input
@@ -108,9 +138,9 @@ export default function BookAppointmentPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div>
-              <label htmlFor="date" className="block text-sm font-medium mb-2">
+              <label htmlFor="date" className="mb-2 block text-sm font-medium">
                 Preferred Date *
               </label>
               <Input
@@ -124,7 +154,7 @@ export default function BookAppointmentPage() {
               )}
             </div>
             <div>
-              <label className="block text-sm font-medium mb-2">
+              <label className="mb-2 block text-sm font-medium">
                 Preferred Time *
               </label>
               <Select
@@ -153,7 +183,7 @@ export default function BookAppointmentPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-2">
+            <label className="mb-2 block text-sm font-medium">
               Service / Occasion *
             </label>
             <Select
@@ -176,7 +206,7 @@ export default function BookAppointmentPage() {
           </div>
 
           <div>
-            <label htmlFor="message" className="block text-sm font-medium mb-2">
+            <label htmlFor="message" className="mb-2 block text-sm font-medium">
               Message (optional)
             </label>
             <Textarea
@@ -188,13 +218,19 @@ export default function BookAppointmentPage() {
             />
           </div>
 
-          <Button type="submit" size="lg" variant="brand" className="w-full sm:w-auto">
+          <Button
+            type="submit"
+            size="lg"
+            variant="brand"
+            className="w-full sm:w-auto"
+          >
             <Calendar className="h-4 w-4" />
-            Book Appointment
+            Book via WhatsApp
           </Button>
 
-          <p className="text-xs text-muted-foreground/60">
-            Demo form. No appointment is actually booked.
+          <p className="text-xs text-muted-foreground/70">
+            Appointment leads are stored for the shop-owner dashboard and sent
+            on WhatsApp for confirmation.
           </p>
         </form>
       </div>

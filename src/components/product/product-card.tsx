@@ -3,9 +3,10 @@
 import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { MessageCircle, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { motion } from "motion/react";
 import { Badge } from "@/components/ui/badge";
+import { WhatsAppIcon } from "@/components/shared/whatsapp-icon";
 import { cn, formatCurrency } from "@/lib/utils";
 import { whatsappProductInquiry } from "@/lib/whatsapp";
 import type { Product } from "@/data/products";
@@ -13,6 +14,8 @@ import type { Product } from "@/data/products";
 interface ProductCardProps {
   product: Product;
   index?: number;
+  /** Slightly shorter image for dense home grids */
+  compact?: boolean;
 }
 
 const badgeVariant: Record<string, "new" | "limited" | "bestseller" | "sale"> =
@@ -23,7 +26,7 @@ const badgeVariant: Record<string, "new" | "limited" | "bestseller" | "sale"> =
     SALE: "sale",
   };
 
-export function ProductCard({ product, index = 0 }: ProductCardProps) {
+export function ProductCard({ product, index = 0, compact = false }: ProductCardProps) {
   const [hovered, setHovered] = React.useState(false);
 
   return (
@@ -38,12 +41,21 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
     >
       <div className="relative">
         <Link href={`/products/${product.slug}`} className="block">
-          <div className="relative aspect-[3/4] overflow-hidden bg-secondary">
+          <div
+            className={cn(
+              "relative overflow-hidden bg-secondary",
+              compact ? "aspect-[4/5]" : "aspect-[3/4]"
+            )}
+          >
             <Image
               src={product.images[0]}
               alt={product.name}
               fill
-              sizes="(min-width: 1024px) 23vw, (min-width: 640px) 30vw, 50vw"
+              sizes={
+                compact
+                  ? "(min-width: 640px) 200px, 45vw"
+                  : "(min-width: 1024px) 23vw, (min-width: 640px) 30vw, 50vw"
+              }
               className="object-cover transition-transform duration-700 group-hover:scale-105"
               loading="lazy"
             />
@@ -96,9 +108,9 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
-            className="flex items-center justify-center gap-2 w-full h-9 rounded-md bg-brand text-brand-foreground text-xs font-medium hover:bg-brand/90 transition-colors"
+            className="flex h-9 w-full items-center justify-center gap-2 rounded-md bg-[#25D366] text-xs font-medium text-white transition-colors hover:bg-[#20BD5A]"
           >
-            <MessageCircle className="h-3.5 w-3.5" />
+            <WhatsAppIcon className="h-3.5 w-3.5" />
             Ask on WhatsApp
           </a>
         </div>

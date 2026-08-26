@@ -1,29 +1,29 @@
 import type { Metadata, Viewport } from "next";
-import { Playfair_Display, Inter } from "next/font/google";
+import { Cormorant_Garamond, Outfit } from "next/font/google";
 import "@/styles/globals.css";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { WhatsAppFloat } from "@/components/shared/whatsapp-float";
-import { DemoBanner } from "@/components/shared/demo-banner";
 import { siteConfig } from "@/config/site";
 import { generateLocalBusinessJsonLd } from "@/lib/seo";
 
-const playfair = Playfair_Display({
+const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
-  variable: "--font-playfair",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-cormorant",
   display: "swap",
 });
 
-const inter = Inter({
+const outfit = Outfit({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-outfit",
   display: "swap",
 });
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#FAF9F3" },
-    { media: "(prefers-color-scheme: dark)", color: "#0E1117" },
+    { media: "(prefers-color-scheme: light)", color: "#F4F6F8" },
+    { media: "(prefers-color-scheme: dark)", color: "#0B1220" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -43,11 +43,13 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     title: `${siteConfig.name} — ${siteConfig.tagline}`,
     description: siteConfig.description,
+    images: [{ url: "/images/editorial/hero.jpg", width: 1920, height: 1080 }],
   },
   twitter: {
     card: "summary_large_image",
     title: `${siteConfig.name} — ${siteConfig.tagline}`,
     description: siteConfig.description,
+    images: ["/images/editorial/hero.jpg"],
   },
   robots: {
     index: true,
@@ -55,7 +57,6 @@ export const metadata: Metadata = {
   },
 };
 
-// Inline script: apply dark class before paint to prevent flash
 const themeScript = `
 (function(){
   try{
@@ -78,7 +79,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${playfair.variable} ${inter.variable} h-full antialiased`}
+      className={`${cormorant.variable} ${outfit.variable} h-full antialiased`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
@@ -91,7 +92,6 @@ export default function RootLayout({
         className="min-h-full flex flex-col font-sans"
         suppressHydrationWarning
       >
-        <DemoBanner />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
