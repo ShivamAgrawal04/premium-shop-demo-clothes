@@ -1,0 +1,42 @@
+export const demoAnalytics = {
+  period: "February 2026",
+  disclaimer: "Demo Data — Not Connected to Live Analytics",
+  metrics: {
+    visitors: { value: 2481, change: "+12%", label: "Visitors" },
+    whatsappClicks: { value: 86, change: "+23%", label: "WhatsApp Clicks" },
+    phoneCalls: { value: 42, change: "+8%", label: "Phone Calls" },
+    directions: { value: 71, change: "+15%", label: "Direction Requests" },
+    enquiries: { value: 38, change: "+19%", label: "Product Enquiries" },
+    appointments: { value: 14, change: "+5%", label: "Appointment Requests" },
+  },
+  recentEnquiries: [
+    { name: "Rajesh K.", phone: "+91 98XXX 12345", occasion: "Wedding", date: "Feb 18, 2026", status: "new" },
+    { name: "Amit S.", phone: "+91 98XXX 67890", occasion: "Formal", date: "Feb 17, 2026", status: "contacted" },
+    { name: "Vikram P.", phone: "+91 98XXX 11111", occasion: "Party", date: "Feb 16, 2026", status: "new" },
+    { name: "Sanjay M.", phone: "+91 98XXX 22222", occasion: "Wedding", date: "Feb 15, 2026", status: "confirmed" },
+    { name: "Deepak R.", phone: "+91 98XXX 33333", occasion: "Casual", date: "Feb 14, 2026", status: "contacted" },
+  ],
+  topProducts: [
+    { name: "Midnight Navy Silk Blazer", views: 342, enquiries: 18 },
+    { name: "Ivory Raw Silk Sherwani", views: 287, enquiries: 15 },
+    { name: "Black Slim-Fit Tuxedo", views: 256, enquiries: 12 },
+    { name: "Burgundy Bandhgala Jacket", views: 198, enquiries: 9 },
+    { name: "Charcoal Wool Three-Piece Suit", views: 176, enquiries: 8 },
+  ],
+  popularCollections: [
+    { name: "Wedding", views: 892, conversion: "4.2%" },
+    { name: "Formal", views: 634, conversion: "3.8%" },
+    { name: "Ethnic", views: 421, conversion: "3.1%" },
+    { name: "Party", views: 312, conversion: "2.9%" },
+    { name: "Casual", views: 222, conversion: "2.1%" },
+  ],
+  dailyVisitors: [
+    { day: "Mon", visitors: 312 },
+    { day: "Tue", visitors: 345 },
+    { day: "Wed", visitors: 398 },
+    { day: "Thu", visitors: 356 },
+    { day: "Fri", visitors: 289 },
+    { day: "Sat", visitors: 421 },
+    { day: "Sun", visitors: 360 },
+  ],
+};
