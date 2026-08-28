@@ -1,7 +1,8 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import type { ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
 interface FadeInProps {
   children: ReactNode;
@@ -18,6 +19,12 @@ export function FadeIn({
   direction = "up",
   viewport = true,
 }: FadeInProps) {
+  const reduceMotion = useReducedMotion();
+
+  if (reduceMotion) {
+    return <div className={className}>{children}</div>;
+  }
+
   const directionMap = {
     up: { y: 20 },
     down: { y: -20 },
@@ -32,8 +39,7 @@ export function FadeIn({
       animate={!viewport ? { opacity: 1, x: 0, y: 0 } : undefined}
       viewport={{ once: true }}
       transition={{ duration: 0.45, delay, ease: [0.22, 1, 0.36, 1] }}
-      style={{ willChange: "opacity, transform" }}
-      className={className}
+      className={cn(className)}
     >
       {children}
     </motion.div>

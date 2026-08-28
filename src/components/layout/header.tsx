@@ -100,11 +100,11 @@ export function Header() {
   return (
     <header
       className={cn(
-        "z-50 transition-all duration-300",
+        "z-50 transition-[background-color,border-color] duration-300",
         isHome ? "fixed left-0 right-0 top-0" : "sticky top-0",
         overHero
-          ? "border-transparent bg-gradient-to-b from-black/70 via-black/25 to-transparent"
-          : "border-b border-border/60 bg-background/92 backdrop-blur-xl"
+          ? "border-transparent bg-gradient-to-b from-black/60 via-black/30 to-transparent"
+          : "border-b border-border/60 bg-background/95 sm:bg-background/92 sm:backdrop-blur-xl"
       )}
     >
       {/* Future leads dashboard banner (route archived → src/archive/demo-dashboard-page.tsx)
@@ -146,23 +146,24 @@ export function Header() {
       )}
       */}
 
-      <div className="px-6 sm:px-10 lg:px-16 xl:px-24 2xl:px-32">
-        <div className="grid h-16 grid-cols-[auto_1fr_auto] items-center gap-3 lg:flex lg:h-[4.5rem] lg:justify-between">
-          <Sheet open={open} onOpenChange={setOpen}>
-            <SheetTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className={cn(
-                  "lg:hidden",
-                  overHero && "text-white hover:bg-white/10 hover:text-white"
-                )}
-                aria-label="Open menu"
-              >
-                <Menu className="h-5 w-5" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="w-[320px]">
+      <div className="px-4 sm:px-10 lg:px-16 xl:px-24 2xl:px-32">
+        <div className="flex h-14 items-center justify-between gap-2 sm:h-16 lg:h-[4.5rem]">
+          <div className="flex min-w-0 flex-1 items-center gap-2 sm:gap-3">
+            <Sheet open={open} onOpenChange={setOpen}>
+              <SheetTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className={cn(
+                    "shrink-0 lg:hidden",
+                    overHero && "text-white hover:bg-white/10 hover:text-white"
+                  )}
+                  aria-label="Open menu"
+                >
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-[320px]">
               <SheetHeader>
                 <SheetTitle className="text-left font-display text-xl tracking-wider">
                   MENU
@@ -203,33 +204,34 @@ export function Header() {
             </SheetContent>
           </Sheet>
 
-          <Link
-            href="/"
-            className="flex min-w-0 items-center justify-self-center gap-2 lg:justify-self-auto lg:gap-3"
-          >
-            <span
-              className={cn(
-                "truncate font-display text-[13px] uppercase tracking-[0.18em] sm:text-lg sm:tracking-[0.25em] lg:text-xl",
-                overHero ? "text-white" : "text-foreground"
-              )}
+            <Link
+              href="/"
+              className="flex min-w-0 items-center gap-2 sm:gap-3 lg:gap-3"
             >
-              The Gentleman
-            </span>
-            <span
-              className={cn(
-                "hidden h-5 w-px sm:inline-block",
-                overHero ? "bg-white/35" : "bg-border"
-              )}
-            />
-            <span
-              className={cn(
-                "hidden text-[10px] uppercase tracking-[0.3em] sm:block",
-                overHero ? "text-white/60" : "text-muted-foreground"
-              )}
-            >
-              Store
-            </span>
-          </Link>
+              <span
+                className={cn(
+                  "truncate font-display text-base uppercase tracking-[0.12em] sm:text-lg sm:tracking-[0.2em] lg:text-xl lg:tracking-[0.25em]",
+                  overHero ? "text-white" : "text-foreground"
+                )}
+              >
+                The Gentleman
+              </span>
+              <span
+                className={cn(
+                  "hidden h-5 w-px sm:inline-block",
+                  overHero ? "bg-white/35" : "bg-border"
+                )}
+              />
+              <span
+                className={cn(
+                  "hidden text-[10px] uppercase tracking-[0.3em] sm:block",
+                  overHero ? "text-white/60" : "text-muted-foreground"
+                )}
+              >
+                Store
+              </span>
+            </Link>
+          </div>
 
           <nav className="hidden items-center gap-10 lg:flex">
             {navigation.main.map((item) => (
@@ -248,7 +250,7 @@ export function Header() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-1">
+          <div className="flex shrink-0 items-center gap-0.5 sm:gap-1">
             {mounted && (
               <Button
                 variant="ghost"

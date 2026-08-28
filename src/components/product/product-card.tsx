@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { Badge } from "@/components/ui/badge";
 import { WhatsAppIcon } from "@/components/shared/whatsapp-icon";
 import { cn, formatCurrency } from "@/lib/utils";
@@ -28,13 +28,10 @@ const badgeVariant: Record<string, "new" | "limited" | "bestseller" | "sale"> =
 
 export function ProductCard({ product, index = 0, compact = false }: ProductCardProps) {
   const [hovered, setHovered] = React.useState(false);
+  const reduceMotion = useReducedMotion();
 
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.05 }}
+  const card = (
+    <div
       className="group"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -56,7 +53,7 @@ export function ProductCard({ product, index = 0, compact = false }: ProductCard
                   ? "(min-width: 640px) 200px, 45vw"
                   : "(min-width: 1024px) 23vw, (min-width: 640px) 30vw, 50vw"
               }
-              className="object-cover transition-transform duration-700 group-hover:scale-105"
+              className="object-cover transition-transform duration-700 group-hover:scale-105 motion-reduce:transition-none max-sm:group-hover:scale-100"
               loading="lazy"
             />
 
@@ -115,6 +112,19 @@ export function ProductCard({ product, index = 0, compact = false }: ProductCard
           </a>
         </div>
       </div>
+    </div>
+  );
+
+  if (reduceMotion) return card;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: index * 0.05 }}
+    >
+      {card}
     </motion.div>
   );
 }
